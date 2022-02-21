@@ -1,0 +1,5 @@
+Scripts to run: 
+env\scripts\activate
+env\scripts\deactivate
+cd studybud
+python manage.py runserver
