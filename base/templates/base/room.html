@@ -98,12 +98,12 @@
               class="room__author"
             >
               <div class="avatar avatar--small">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
+                <img src="{{room.host.avatar.url}}" />
               </div>
               <span>@{{room.host.username}}</span>
             </a>
           </div>
-          <!-- <div class="room__details">{{room.description}}</div> -->
+          <div class="room__details">{{room.description}}</div>
           <span class="room__topics">{{room.topic}}</span>
         </div>
         <div class="room__conversation">
@@ -117,9 +117,7 @@
                     class="thread__authorInfo"
                   >
                     <div class="avatar avatar--small">
-                      <img
-                        src="https://randomuser.me/api/portraits/men/37.jpg"
-                      />
+                      <img src="{{message.user.avatar.url}}" />
                     </div>
                     <span>@{{message.user.username}}</span>
                   </a>
@@ -154,8 +152,15 @@
       </div>
       <div class="room__message">
         <form action="" method="POST">
-          {% csrf_token %}
+          {% csrf_token %} {% if request.user.is_authenticated %}
           <input name="body" placeholder="Write your message here..." />
+          {% else %}
+          <input
+            name="body"
+            placeholder="You must be logged in to leave a message."
+            disabled
+          />
+          {% endif %}
         </form>
       </div>
     </div>
@@ -170,7 +175,7 @@
         {% for user in participants %}
         <a href="{% url 'user-profile' user.id %}" class="participant">
           <div class="avatar avatar--medium">
-            <img src="https://randomuser.me/api/portraits/men/37.jpg" />
+            <img src="{{user.avatar.url}}" />
           </div>
           <p>
             {{user.username}}
